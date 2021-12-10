@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+<meta name="theme-color" content="#fafafa">
+<title>M-1グランプリクイズ！</title>
+</head>
+<body>
+
+<header>
+    <h1 style="text-align:center;">M-1グランプリクイズ</h1>
+</header>
+
+<!----メインここから---->
+<main>
+<div class="container">
+    
+  <div class="jumbotron mt-5">
+    <div class="d-flex justify-content-center">
+      <div id="js-question" class="alert alert-dark" role="alert">
+        A simple primary alert—check it out!
+      </div>
+    </div>
+    
+    <div id="js-items" class="d-flex justify-content-center">
+      <div class="m-2">
+        <button type="button" id="js-btn-1" class="btn btn-danger">Primary</button>
+      </div>
+      <div class="m-2">
+        <button type="button" id="js-btn-2" class="btn btn-danger">Primary</button>
+      </div>
+      <div class="m-2">
+        <button type="button" id="js-btn-3" class="btn btn-danger">Primary</button>
+      </div>
+      <div class="m-2">
+        <button type="button" id="js-btn-4" class="btn btn-danger">Primary</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="youtube">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/phqui7v36ZA?autoplay=1&mute=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+</main>
+
+<!---CSSはここから--->
+<script>
+
+  //クイズの質問と回答
+  const quiz = [
+  {
+    question: '去年の優勝コンビはどれ？',
+    answers: [ 'オズワルド', 'マジカルラブリー', 'ミルクボーイ', 'おいでやすこが'],
+    correct: 'マジカルラブリー'
+  }, {
+    question: '初代優勝コンビはどれ？',
+    answers: [ 'ますだおかだ', 'ますだおかだ', 'フットボールアワー', '中川家'],
+    correct: '中川家'
+  }, {
+    question: '歴代最年少の優勝コンビは？',
+    answers: [ '霜降明星', 'りあるキッズ', '千鳥', 'トレンディエンジェル'],
+    correct: '霜降明星'
+  }, {
+    question: '敗者復活で優勝したコンビは次のうちどれ？',
+    answers: [ 'NONSTYLE', 'サンドウィッチマン', '和牛', 'かまいたち'],
+    correct: 'サンドウィッチマン'
+  }, {
+    question: '今年の決勝進出コンビは次のうちどれ？',
+    answers: [ 'もも', 'パンプキンズ', 'とろサーモン', 'からし蓮根'],
+    correct: 'もも'
+  }
+  
+];
+
+const $window = window;
+const $doc = document;
+const $question = $doc.getElementById('js-question');
+const $buttons = $doc.querySelectorAll('.btn');
+
+const quizLen = quiz.length;
+let quizCount = 0;
+let score = 0;
+
+const init = () => {
+  $question.textContent = quiz[quizCount].question;
+  
+  const buttonLen = $buttons.length;
+  let btnIndex = 0;
+  
+  while(btnIndex < buttonLen){
+    $buttons[btnIndex].textContent = quiz[quizCount].answers[btnIndex];
+    btnIndex++;
+  }
+};
+
+const goToNext = () => {
+  quizCount++;
+  if(quizCount < quizLen){
+    init(quizCount);
+  } else {
+    // $window.alert('クイズ終了！');
+    showEnd();
+  }
+};
+
+const judge = (elm) => {
+  if(elm.textContent === quiz[quizCount].correct){
+    $window.alert('正解!');
+    score++;
+  } else {
+    $window.alert('不正解!');
+  }
+  goToNext();
+};
+
+const showEnd = () => {
+  $question.textContent = '終了！あなたの正解数は' + score + '/' + quizLen + 'です';
+  
+  const $items = $doc.getElementById('js-items');
+  $items.style.visibility = 'hidden';
+};
+
+init();
+
+let answersIndex = 0;
+let answersLen = quiz[quizCount].answers.length;
+
+while(answersIndex < answersLen){
+  $buttons[answersIndex].addEventListener('click', (e) => {
+    judge(e.target);
+  });
+  answersIndex++;
+}
+
+
+</script>
+
+</body>
+</html>
